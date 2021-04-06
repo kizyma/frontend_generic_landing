@@ -21,20 +21,11 @@ document.querySelector(".check").addEventListener("click", function () {
       highscore = score;
       document.querySelector(".highscore").textContent = highscore;
     }
-    // too high
-  } else if (guess > secretNumber) {
+    // guess is wrong
+  } else if (guess != secretNumber) {
     if (score > 1) {
-      document.querySelector(".message").textContent = "📈 Too high!";
-      score--;
-      document.querySelector(".score").textContent = score;
-    } else {
-      document.querySelector(".message").textContent = "☠Game over!";
-      document.querySelector(".score").textContent = 0;
-    }
-    // too low
-  } else if (guess < secretNumber) {
-    if (score > 1) {
-      document.querySelector(".message").textContent = "📉 Too low!";
+      document.querySelector(".message").textContent =
+        guess > secretNumber ? "📈 Too high!" : "📉 Too low!";
       score--;
       document.querySelector(".score").textContent = score;
     } else {
@@ -45,7 +36,7 @@ document.querySelector(".check").addEventListener("click", function () {
 });
 
 ///////////////////////////////////////
-// Coding Challenge #1
+// restart the game, retain the high score
 
 document.querySelector(".again").addEventListener("click", function () {
   secretNumber = Math.trunc(Math.random() * 20) + 1;
