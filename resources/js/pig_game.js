@@ -1,7 +1,7 @@
 'use strict';
 // Selecting elements
-const player0El = document.querySelector('.player--1');
-const player1El = document.querySelector('.player--2');
+const player0El = document.querySelector('.player--0');
+const player1El = document.querySelector('.player--1');
 const score0El = document.querySelector('#score--0');
 const score1El = document.getElementById('score--1');
 const current0El = document.getElementById('current--0');
@@ -19,6 +19,14 @@ const score = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
 
+const switchPlayer = function () {
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  player0El.classList.toggle('player--active');
+  player1El.classList.toggle('player--active');
+};
+
 // Dice Roll functionality
 btnRoll.addEventListener('click', function () {
   // generate rand number, I hate how rand works in JS, idiotic
@@ -35,10 +43,26 @@ btnRoll.addEventListener('click', function () {
     ).textContent = currentScore;
   } else {
     //   switch player
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    currentScore = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    player0El.classList.toggle('player--active');
-    player1El.classList.toggle('player--active');
+    switchPlayer();
+  }
+});
+
+btnHold.addEventListener('click', function () {
+  //  add current score to active player
+  score[activePlayer] += currentScore;
+  console.log(score[activePlayer]);
+  document.getElementById(`score--${activePlayer}`).textContent =
+    score[activePlayer];
+  // check win condition
+  if (score[activePlayer] >= 100) {
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.add('player--winner');
+    document
+      .querySelector(`.player--${activePlayer}`)
+      .classList.remove('player--active');
+  } else {
+    // switch player
+    switchPlayer();
   }
 });
